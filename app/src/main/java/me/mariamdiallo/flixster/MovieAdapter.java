@@ -1,6 +1,7 @@
 package me.mariamdiallo.flixster;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -102,8 +105,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return movies.size();
     }
 
-    // create the viewholder as a static inner class
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    // create the viewholder as an inner class
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // track view objects
         ImageView ivPosterImage;
@@ -118,6 +121,23 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             ivBackdropImage = itemView.findViewById(R.id.ivBackdropImage);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             tvTitle = itemView.findViewById(R.id.tvTitle);
+            // set this as itemView's onlicklistener
+            itemView.setOnClickListener(this);
+        }
+
+        // go to details activity on click
+        @Override
+        public void onClick(View view) {
+            // get item position
+            int position = getAdapterPosition();
+            // get the movie at the position from movies array
+            Movie movie = movies.get(position);
+            // create intent for the new activity
+            Intent intent = new Intent (context, MovieDetailsActivity.class);
+            // serialize the movie using parceler, use its short name as a key
+            intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+            // show the activity
+            context.startActivity(intent);
         }
     }
 }
