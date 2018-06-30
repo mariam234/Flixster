@@ -13,6 +13,7 @@ public class Movie {
     String overview;
     String posterPath; //only the path
     String backdropPath;
+    Double voteAverage;
 
     public Movie() {}
 
@@ -32,12 +33,17 @@ public class Movie {
         return backdropPath;
     }
 
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
     // initialize from JSON data
     public Movie(JSONObject object) throws JSONException {
         title = object.getString("title");
         overview = object.getString("overview");
         posterPath = object.getString("poster_path");
         backdropPath = object.getString("backdrop_path");
+        voteAverage = object.getDouble("vote_average");
 
     }
 }
